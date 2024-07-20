@@ -13,6 +13,6 @@ public class CharBooleanPrimitivo {
         //tipos booleanos
         boolean miVerdadero = true;
         boolean miFalso = false;
-        
+
     }
 }
