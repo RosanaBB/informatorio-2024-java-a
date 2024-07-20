@@ -2,8 +2,6 @@ package imperativa.operadores;
 
 public class OperadorOperadores {
     public static void main(String[] args) {
-        int value2;
-        int value = 5;
 
         int resultado = 5 + 3 * 2;
 
@@ -13,6 +11,7 @@ public class OperadorOperadores {
         // < <= > >=
         boolean resultado3 = (resultado2 > resultado)? true : false;
 
+        int value2;
         int value = 5;
         value2 = value++; //asigna luego incrementa
         value2 = ++value; //incrementa valua luego asigna

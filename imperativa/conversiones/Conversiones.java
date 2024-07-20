@@ -14,6 +14,9 @@ public class Conversiones {
         double value3 = 10 * 20.5d;
         System.out.println(10 * 20.5d);
 
-        
+        int value4 = 1 + 2 * 4;
+        System.out.println(value4);
+
+
     }
 }
