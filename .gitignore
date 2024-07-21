@@ -1,0 +1,10 @@
+
+#Archivos de idea
+.idea
+
+#Archivos de compilacion
+out
+
+*.class
+
+
