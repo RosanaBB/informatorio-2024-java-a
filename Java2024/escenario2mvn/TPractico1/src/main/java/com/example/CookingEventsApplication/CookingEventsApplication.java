@@ -1,11 +1,12 @@
-package com.example;
-
 import com.example.model.*;
 import com.example.service.*;
 import com.example.utils.FileExporter;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Scanner;
 
@@ -31,7 +32,7 @@ public class CookingEventsApplication {
             System.out.println("1. Crear Evento");
             System.out.println("2. Inscribir Participante en Evento");
             System.out.println("3. Gestionar Chefs");
-            System.out.println("4. Dejar Resena sobre Evento");
+            System.out.println("4. Dejar Reseña sobre Evento");
             System.out.println("5. Listar Eventos Disponibles");
             System.out.println("6. Exportar Eventos No Disponibles");
             System.out.println("0. Salir");
@@ -75,8 +76,10 @@ public class CookingEventsApplication {
         String nombre = scanner.nextLine();
         System.out.println("Ingrese la descripción del evento:");
         String descripcion = scanner.nextLine();
-        System.out.println("Ingrese la fecha y hora del evento (yyyy-MM-dd HH:mm):");
-        LocalDateTime fechaHora = LocalDateTime.parse(scanner.nextLine());
+
+
+        LocalDateTime fechaHora = leerFechaHora();
+
         System.out.println("Ingrese la ubicación del evento:");
         String ubicacion = scanner.nextLine();
         System.out.println("Ingrese la capacidad máxima del evento:");
@@ -176,16 +179,16 @@ public class CookingEventsApplication {
     }
 
     private void listarEventosDisponibles() {
-        System.out.println("Ingrese la fecha a partir de la cual listar eventos (yyyy-MM-ddTHH:mm):");
-        LocalDateTime fecha = LocalDateTime.parse(scanner.nextLine());
+        System.out.println("Ingrese la fecha a partir de la cual listar eventos (yyyy-MM-dd):");
+        LocalDateTime fecha = leerFechaHoraConFecha();
 
         List<Evento> eventosDisponibles = eventoService.listarEventosDisponibles(fecha);
         eventosDisponibles.forEach(evento -> System.out.println(evento.getNombre()));
     }
 
     private void exportarEventosNoDisponibles() {
-        System.out.println("Ingrese la fecha a partir de la cual exportar eventos (yyyy-MM-ddTHH:mm):");
-        LocalDateTime fecha = LocalDateTime.parse(scanner.nextLine());
+        System.out.println("Ingrese la fecha a partir de la cual exportar eventos (yyyy-MM-dd):");
+        LocalDateTime fecha = leerFechaHoraConFecha();
 
         List<Evento> eventosNoDisponibles = eventoService.listarEventosNoDisponibles(fecha);
         try {
@@ -195,7 +198,43 @@ public class CookingEventsApplication {
             System.out.println("Error al exportar eventos: " + e.getMessage());
         }
     }
+
+    private LocalDateTime leerFechaHora() {
+        DateTimeFormatter fechaFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter horaFormatter = DateTimeFormatter.ofPattern("HH:mm");
+
+
+        System.out.println("Ingrese la fecha del evento (yyyy-MM-dd):");
+        String fechaString = scanner.nextLine();
+        LocalDate fecha = LocalDate.parse(fechaString, fechaFormatter);
+
+
+        System.out.println("Ingrese la hora del evento (HH:mm):");
+        String horaString = scanner.nextLine();
+        LocalTime hora = LocalTime.parse(horaString, horaFormatter);
+
+        return fecha.atTime(hora);
+    }
+
+    private LocalDateTime leerFechaHoraConFecha() {
+        DateTimeFormatter fechaFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter horaFormatter = DateTimeFormatter.ofPattern("HH:mm");
+
+
+        System.out.println("Ingrese la fecha (yyyy-MM-dd):");
+        String fechaString = scanner.nextLine();
+        LocalDate fecha = LocalDate.parse(fechaString, fechaFormatter);
+
+
+        System.out.println("Ingrese la hora (HH:mm):");
+        String horaString = scanner.nextLine();
+        LocalTime hora = LocalTime.parse(horaString, horaFormatter);
+
+        return fecha.atTime(hora);
+    }
 }
+
+
 
 
 
